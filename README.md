@@ -31,7 +31,7 @@ Example usage:
 ========================
 The following code is put into the "stuff.html" page of example.com/.
 
-<script>
+
 	//...
 	ops = { gaId: "UA-XXXXXXXX-X", 
 			signal: "get", 
@@ -42,7 +42,7 @@ The following code is put into the "stuff.html" page of example.com/.
 		
 	ignorer = new ignoreme.js(ops);
 	//...
-</script>
+
 
 If someone goes to "http://example.com/stuff.html", the above code treats it
 as a normal, GA-tracked visit by telling Google about it. If, however, a user 
@@ -53,7 +53,7 @@ also not appear in GA's Real-Time feed.
 Here's a slightly more conventional example that uses Google's recommended 
 filtering techniques (instead of paranoid blocking) and a different signal:
 
-<script>
+
 	//...
 	ops = { gaId: "UA-XXXXXXXX-X", 
 			signal: "hashbang",
@@ -63,7 +63,7 @@ filtering techniques (instead of paranoid blocking) and a different signal:
 		
 	ignorer = new ignoreme.js(ops);
 	//...
-</script> 
+
 
 Now, when someone types "http://example.com/stuff.html#!shush", ignoreme.js will
 fetch and build all GA-related assets, but it will mark the visit using a GA
@@ -76,8 +76,7 @@ with that variable, then those visits will not be evaluated in any metrics
 FAQ:
 ========================
 
-Q: Won't this make it easier for people to mess with my analytics? Will users
-be able to hide their visits more easily?
+Q: Won't this make it easier for people to mess with my analytics? Will users be able to hide their visits more easily?
 --
 A: Technically speaking, sorta. Practically, no. Anyone with their browser
 dev console open or a GA-blocking plugin (like Ghostery) can already skew 
@@ -93,24 +92,20 @@ minimal setup to fully filter results. You may be as elaborate or as sparse in
 your config as you wish.
 
 
-Q: There are multiple people who work on my site. How do I tell them about
-this?
+Q: There are multiple people who work on my site. How do I tell them about this?
 --
 A: After you've installed it on all the pages they will visit, simply give
 them the URL fragment (the hashbang or the GET parameter) and ask that they
 append it when viewing pages.
 
 
-Q: Can I still use GA like I normally would? Does event logging and all that
-other stuff still work?
+Q: Can I still use GA like I normally would? Does event logging and all that other stuff still work?
 --
 A: Yep. ignoreme.js puts the same variables into global scope that normal GA
 asynchronous code does (namely ga and _gaq), and as long as you place it where
 in the same place as the GA code, it'll be all gravy.
 
 
-Q: Is this tool bug-free, well-documented, or well-supported? Is there any
-warranty, express or implied? Are you or the software in any way related to 
-Google?
+Q: Is this tool bug-free, well-documented, or well-supported? Is there any warranty, express or implied? Are you or the software in any way related to Google?
 --
 A: Nope. 
