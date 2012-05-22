@@ -40,7 +40,7 @@ The following code is put into the "stuff.html" page of example.com/.
 			paranoidLabel: "yes"
 		  };
 		
-	ignorer = new ignoreme.js(ops);
+	ignorer = new IgnoreMe(ops);
 	//...
 
 
@@ -61,7 +61,7 @@ filtering techniques (instead of paranoid blocking) and a different signal:
 			label: "shush",
 		  };
 		
-	ignorer = new ignoreme.js(ops);
+	ignorer = new IgnoreMe(ops);
 	//...
 
 
@@ -102,8 +102,13 @@ append it when viewing pages.
 Q: Can I still use GA like I normally would? Does event logging and all that other stuff still work?
 --
 A: Yep. ignoreme.js puts the same variables into global scope that normal GA
-asynchronous code does (namely ga and _gaq), and as long as you place it where
+asynchronous code does (namely ga and _gaq), and as long as you place it
 in the same place as the GA code, it'll be all gravy.
+
+
+Q: What dependencies does ignoreme.js have?
+--
+A: None.
 
 
 Q: Is this tool bug-free, well-documented, or well-supported? Is there any warranty, express or implied? Are you or the software in any way related to Google?
