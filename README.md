@@ -57,7 +57,7 @@ filtering techniques (instead of paranoid blocking) and a different signal:
 	//...
 	ops = { gaId: "UA-XXXXXXXX-X", 
 			signal: "hashbang",
-			level: "ignore",
+			level: "filter",
 			value: "shush",
 		  };
 		
