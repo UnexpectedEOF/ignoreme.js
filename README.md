@@ -1,9 +1,6 @@
 ignoreme.js
 ===========
 
-A flexible tool to help administrative users dynamically exclude page visits in Google Analytics
-
-===========
 
 Sometimes, you just don't want your visit to count. 
 
@@ -18,6 +15,7 @@ functionality to deal with unimportant visits, but it's all pretty rigid and
 usually involves some kind of klunky workaround techniques to properly "ignore"
 junk traffic. The alternative is to use GA-blocking browser plugins, but those
 only work in the computers (and browser executibles) where they are installed.
+And it's a pain to switch them off and on during development.
 
 ignoreme.js is a small Javscript utility that can selectively tell Google 
 Analytics information about the current visit based on URL parameters. By 
@@ -46,7 +44,7 @@ The following code is put into the "stuff.html" page of example.com/.
 
 If someone goes to "http://example.com/stuff.html", the above code treats it
 as a normal, GA-tracked visit by telling Google about it. If, however, a user 
-types (or is linked to) "http://example.com/stuff.html?paranoid=yes", then 
+types (or is linked to) "http://example.com/stuff.html?notrack=yes", then 
 ignoreme.js won't load request any GA-related assets from google. The visit will
 also not appear in GA's Real-Time feed.
 
@@ -69,7 +67,8 @@ Now, when someone types "http://example.com/stuff.html#!shush", ignoreme.js will
 fetch and build all GA-related assets, but it will mark the visit using a GA
 "custom variable". If the site admin has configured GA to ignore traffic
 with that variable, then those visits will not be evaluated in any metrics
-(but the visit will still be visible to whomever is watching the Real-Time).
+(but the visit will still be visible to whomever is watching the Real-Time 
+graph).
 
 
 ========================

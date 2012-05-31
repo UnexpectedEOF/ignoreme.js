@@ -37,7 +37,7 @@ function IgnoreMe(options){
 		this.signal = this.optionsObj['signal'] != undefined ? this.optionsObj['signal'] : undefined;
 		this.triggerKey = this.optionsObj['key'] != undefined ? this.optionsObj['key'] : undefined;
 		this.triggerValue = this.optionsObj['value'] != undefined ? this.optionsObj['value'] : undefined;
-		this.signalStrategy = this.optionsObj['callback'] != undefined ? this.optionsObj['callback'] : undefined;
+		this.signalStrategy = this.optionsObj['userfunc'] != undefined ? this.optionsObj['userfunc'] : undefined;
 		
 		//GA-specific shit
 		this.gaId = this.optionsObj['gaId'] != undefined ? this.optionsObj['gaId'] : undefined;
