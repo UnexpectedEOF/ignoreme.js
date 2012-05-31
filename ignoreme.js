@@ -8,7 +8,7 @@ function IgnoreMe(options){
 	
 	
 	if(typeof options == 'undefined'){
-		console.log("Yo, you need to put pass an options object first.");
+		console.log("Yo, you need to pass an options object first.");
 		return false;
 	}
 	
@@ -25,6 +25,9 @@ function IgnoreMe(options){
 	this.queryParam;	//Name of GET param that holds "ignore trigger" value.
 	this.optionsObj;	//Object containing all the options.
 	this.callback;		//Callback function to determine if signal is present.
+	this.userCallback;
+	this.triggerKey = "IgnoreMe_No_Track"
+	this.triggerValue;
 	
 	//Mutators and crap
 	this.setOptions = function(optionsObject){
@@ -81,12 +84,13 @@ function IgnoreMe(options){
 	this.checkSignal = function(){
 		switch(this.signal){
 			case "hashbang":
-				this.checkHashbang();
+				this.callback = this.checkHashbang;
 				break;
 			case "get":
-				this.checkQueryParam();
+				this.callback = this.checkQueryParam;
 				break;
 			case "callback":
+				this.callback = this.userCallback;
 				if(typeof this.callback != 'undefined'){
 					var workerArr = this.callback();
 					this.label = workerArr['label'] != undefined ? workerArr['label'] : "";
@@ -94,7 +98,7 @@ function IgnoreMe(options){
 				}
 				break;
 			case undefined:
-				console.log("No signal specified.");
+				console.log("No signal type specified.");
 				break;
 			case "cookie":
 			default:
