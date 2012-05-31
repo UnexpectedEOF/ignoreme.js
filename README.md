@@ -21,8 +21,8 @@ only work in the computers (and browser executibles) where they are installed.
 
 ignoreme.js is a small Javscript utility that can selectively tell Google 
 Analytics information about the current visit based on URL parameters. By 
-placing it in the page where the Google Analytics code would normally go (in 
-<head> or at the end of <body>), admins can choose at "browse-time" whether to
+placing it in the page where the Google Analytics code would normally go (in the
+head or at the end of the body), admins can choose at "browse-time" whether to
 ignore a page visit outright or merely tag it to be filtered out later.
 
 
