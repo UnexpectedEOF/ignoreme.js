@@ -1,13 +1,14 @@
 /**
- * GoogleAnalytics Administrative Ignore 
- * Matt Wilczynski
+ * ignoreme.js - A Google Analytics administrative visit cloaking tool
+ * ---
+ * by Matt Wilczynski
  */
 
 function IgnoreMe(options){
 	
 	
 	if(typeof options == 'undefined'){
-		console.log("Yo, you need to put pass an options object first.");
+		console.log("Yo, you need to pass an options object first.");
 		return false;
 	}
 	
@@ -15,7 +16,7 @@ function IgnoreMe(options){
 	this.gaId;			//GA UA-XXXX... ID
 	this.gaObject;		//Not used yet. 
 	this.gaq;			//Not used yet.
-	this.signal;		//May be "hashbang", "get", or "cookie" (coming soon)
+	this.signal;		//May be "hashbang", "get", "cookie" (coming soon), "localstorage" (coming soon), or "callback" (coming soon)
 	this.ignoreLevel;	//Can be "none", "ignore", or "paranoid"
 	this.syncOrAsynch;	//Not used yet. Can be "synch" or "asynch".
 	this.linkPoison;	//Not used yet.
@@ -23,7 +24,10 @@ function IgnoreMe(options){
 	this.paranoidLabel;	//Value used to trigger paranoid mode.
 	this.queryParam;	//Name of GET param that holds "ignore trigger" value.
 	this.optionsObj;	//Object containing all the options.
-	
+	this.callback;		//Callback function to determine if signal is present.
+	this.userCallback;
+	this.triggerKey = "IgnoreMe_No_Track"
+	this.triggerValue;
 	
 	//Mutators and crap
 	this.setOptions = function(optionsObject){
@@ -34,6 +38,7 @@ function IgnoreMe(options){
 		this.queryParam = this.optionsObj['queryParam'] != undefined ? this.optionsObj['queryParam'] : undefined;
 		this.hashbangLabel = this.optionsObj['hashbang'] != undefined ? this.optionsObj['hashbang'] : undefined;
 		this.paranoidLabel = this.optionsObj['paranoidLabel'] != undefined ? this.optionsObj['paranoidLabel'] : undefined;
+		this.callback = this.optionsObj['callback'] != undefined ? this.optionsObj['callback'] : undefined;
 		
 		//GA-specific shit
 		this.gaId = this.optionsObj['gaId'] != undefined ? this.optionsObj['gaId'] : undefined;
@@ -67,18 +72,33 @@ function IgnoreMe(options){
     	console.log("Result of the query param search: " + this.label);
 	};
 
+	this.extractCookie = function(){
+		
+	};
+	
+	this.extractLocalStorage = function(){
+		
+	};
 	
 	//See if the appropriate signal can be detected
 	this.checkSignal = function(){
 		switch(this.signal){
 			case "hashbang":
-				this.checkHashbang();
+				this.callback = this.checkHashbang;
 				break;
 			case "get":
-				this.checkQueryParam();
+				this.callback = this.checkQueryParam;
+				break;
+			case "callback":
+				this.callback = this.userCallback;
+				if(typeof this.callback != 'undefined'){
+					var workerArr = this.callback();
+					this.label = workerArr['label'] != undefined ? workerArr['label'] : "";
+					this.paranoidLabel = workerArr['paranoidLabel'] != undefined ? workerArr['paranoidLabel'] : "";
+				}
 				break;
 			case undefined:
-				console.log("No signal specified.");
+				console.log("No signal type specified.");
 				break;
 			case "cookie":
 			default:
