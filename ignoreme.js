@@ -145,7 +145,7 @@ function IgnoreMe(options){
 				console.log("Creating GA object...");
 				window._gaq.push(['_trackPageview']);
 				window.ga = document.createElement('script'); window.ga.type = 'text/javascript'; window.ga.async = true;
-				window.ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js';
+				window.ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 				break;	
 		}

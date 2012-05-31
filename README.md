@@ -12,7 +12,7 @@ analytics stats if they constitute a nontrivial proportion of your traffic.
 
 Google Analytics has some official filtering and traffic exclusion 
 functionality to deal with unimportant visits, but it's all pretty rigid and
-usually involves some kind of klunky workaround techniques to properly "ignore"
+usually involves some kind of klunky workaround techniques[1][2] to properly "ignore"
 junk traffic. The alternative is to use GA-blocking browser plugins, but those
 only work in the computers (and browser executibles) where they are installed.
 And it's a pain to switch them off and on during development.
@@ -23,6 +23,12 @@ placing it in the page where the Google Analytics code would normally go (in the
 head or at the end of the body), admins can choose at "browse-time" whether to
 ignore a page visit outright or merely tag it to be filtered out later.
 
+
+========================
+Installation:
+========================
+Include ingoreme.js and then create an IgnoreMe object using inline scripts 
+where you would normally put GA code (as shown below).
 
 ========================
 Example usage:
@@ -88,7 +94,8 @@ Q: What do I need to do in my Google Analytics dashboard?
 --
 A: If you run ignoreme.js in paranoid mode, nothing. The other modes require only
 minimal setup to fully filter results. You may be as elaborate or as sparse in
-your config as you wish.
+your config as you wish. For instance, it might be prudent to eliminate GET
+parameters from your analytics[3].
 
 
 Q: There are multiple people who work on my site. How do I tell them about this?
@@ -102,7 +109,7 @@ Q: Can I still use GA like I normally would? Does event logging and all that oth
 --
 A: Yep. ignoreme.js puts the same variables into global scope that normal GA
 asynchronous code does (namely ga and _gaq), and as long as you place it
-in the same place as the GA code, it'll be all gravy.
+where you'd normally put GA code, it'll be all gravy.
 
 
 Q: What dependencies does ignoreme.js have?
@@ -113,3 +120,9 @@ A: None.
 Q: Is this tool bug-free, well-documented, or well-supported? Is there any warranty, express or implied? Are you or the software in any way related to Google?
 --
 A: Nope. 
+
+
+
+	[1]: http://iqcontent.com/blog/2007/06/dealing-with-query-strings-in-google-analytics/ "Google - How do I exclude my internal traffic from reports?"
+	[2]: http://www.mcbuzz.com/2011/how-to-exclude-visitors-from-google-analytics/ "McBuzz - How to Exclude Internal Visits/Visitors from Google Analytics Reports Using Asynchronous Code"
+	[3]: http://iqcontent.com/blog/2007/06/dealing-with-query-strings-in-google-analytics/ "iQ Content - Dealing with query strings in Google Analytics"
