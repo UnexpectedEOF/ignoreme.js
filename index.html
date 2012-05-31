@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>Ignoreme.js Test</title>
-	<script type="text/javascript" src="gaignore.js" /></script>
+	<script type="text/javascript" src="ignoreme.js" /></script>
 </head>
 <body>
 <header>
@@ -15,11 +15,10 @@
 </header>
 		This are test page for ignoreme.js.
 		<script type="text/javascript">
-			myGAWrapper = new IgnoreMe({signal: "get", 
+			myGAWrapper = new IgnoreMe({signal: "hashbang", 
 										gaId: "UA-31863213-1", 
-										level: "ignore",
-										queryParam: "ignore",
-										paranoidLabel: "noid"});
+										level: "paranoid",
+										value: "noid"});
 		</script>
 </body>
 </html>

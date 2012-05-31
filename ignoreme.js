@@ -13,21 +13,21 @@ function IgnoreMe(options){
 	}
 	
 	//Fields
-	this.gaId;			//GA UA-XXXX... ID
-	this.gaObject;		//Not used yet. 
-	this.gaq;			//Not used yet.
-	this.signal;		//May be "hashbang", "get", "cookie" (coming soon), "localstorage" (coming soon), or "callback" (coming soon)
-	this.ignoreLevel;	//Can be "none", "ignore", or "paranoid"
-	this.syncOrAsynch;	//Not used yet. Can be "synch" or "asynch".
-	this.linkPoison;	//Not used yet.
-	this.label;			//Value used with signal, if applicable. Analogous to GA's custom event labels.
-	this.paranoidLabel;	//Value used to trigger paranoid mode.
-	this.queryParam;	//Name of GET param that holds "ignore trigger" value.
-	this.optionsObj;	//Object containing all the options.
-	this.callback;		//Callback function to determine if signal is present.
-	this.userCallback;
-	this.triggerKey = "IgnoreMe_No_Track"
-	this.triggerValue;
+	this.gaId;				//GA UA-XXXX... ID
+	this.gaObject;			//Not used yet. 
+	this.gaq;				//Not used yet.
+	this.signal;			//May be "hashbang", "get", "userfunc", "cookie" (coming soon), "localstorage" (coming soon)
+	this.ignoreLevel;		//Can be "none", "filter", or "paranoid"
+	this.syncOrAsynch;		//Not used yet. Can be "synch" or "asynch".
+	this.linkPoison;		//Not used yet.
+	this.paranoidLabel;		//Value used to trigger paranoid mode.
+	this.queryParam;		//Name of GET param that holds "ignore trigger" value.
+	this.optionsObj;		//Object containing all the options.
+	this.signalStrategy;	//Function to determine if signal is present.
+	this.triggerKey = "";	//Predetermined key to match against when deciding whether to trigger
+	this.triggerValue = ""; //Predetermined value to match against when deciding whether to trigger
+	this.passedKey = "";	//Actual key found in request
+	this.passedValue = "";	//Actual value found in request
 	
 	//Mutators and crap
 	this.setOptions = function(optionsObject){
@@ -35,10 +35,9 @@ function IgnoreMe(options){
 		this.optionsObj = optionsObject;
 		this.ignoreLevel = this.optionsObj['level'] != undefined ? this.optionsObj['level'] : undefined;
 		this.signal = this.optionsObj['signal'] != undefined ? this.optionsObj['signal'] : undefined;
-		this.queryParam = this.optionsObj['queryParam'] != undefined ? this.optionsObj['queryParam'] : undefined;
-		this.hashbangLabel = this.optionsObj['hashbang'] != undefined ? this.optionsObj['hashbang'] : undefined;
-		this.paranoidLabel = this.optionsObj['paranoidLabel'] != undefined ? this.optionsObj['paranoidLabel'] : undefined;
-		this.callback = this.optionsObj['callback'] != undefined ? this.optionsObj['callback'] : undefined;
+		this.triggerKey = this.optionsObj['key'] != undefined ? this.optionsObj['key'] : undefined;
+		this.triggerValue = this.optionsObj['value'] != undefined ? this.optionsObj['value'] : undefined;
+		this.signalStrategy = this.optionsObj['callback'] != undefined ? this.optionsObj['callback'] : undefined;
 		
 		//GA-specific shit
 		this.gaId = this.optionsObj['gaId'] != undefined ? this.optionsObj['gaId'] : undefined;
@@ -49,27 +48,32 @@ function IgnoreMe(options){
 	
 	//Signal checkers
 	this.checkHashbang = function(){
-		console.log("Checking for hashbangs...");
-		if(typeof window.location.hash != 'undefined' && window.location.hash.length != 0){
-			console.log("Hash is: "+ window.location.hash);
-			this.label = window.location.hash;
+		console.log("Checking for hash(bangs)...");
+		var returner = {key: "", label: ""};
+		var hash = typeof window.location.hash != 'undefined' ? window.location.hash.replace('#!', '').replace('#', '') : "";
+		
+		if(hash != "" && hash.toLowerCase() == this.triggerValue.toLowerCase()){
+			console.log("Hash is: "+ hash);
+			returner = {key: hash, label: hash};
 		}
 		else{
-			this.label = "";
-			console.log("Hashbang not found in URL. Resuming normal GA building.");
+			console.log("Hashbang not found in URL or triggerKey doesn't match. Resuming normal GA building.");
 		}
+		return returner;
 	};
 	
 	this.checkQueryParam = function(){
-		
+		console.log("Checking for GET params...");
 		//Code based on http://james.padolsey.com/javascript/bujs-1-getparameterbyname/
-		name = String(this.queryParam).replace(/[.*+?|()[\]{}\\]/g, '\\$&');
+		name = String(this.triggerKey).replace(/[.*+?|()[\]{}\\]/g, '\\$&');
 		
 		var match = RegExp('[?&]' + String(name) + '=([^&]*)').exec(window.location.search);
 
-    	this.label = match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    	this.label = this.label == null ? "" : this.label;
-    	console.log("Result of the query param search: " + this.label);
+    	var passedValue = match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    	passedValue = passedValue == null ? "" : passedValue;
+
+    	console.log("Result of the query param search: " + passedValue);
+    	return {key: this.triggerKey, label: passedValue};
 	};
 
 	this.extractCookie = function(){
@@ -84,26 +88,30 @@ function IgnoreMe(options){
 	this.checkSignal = function(){
 		switch(this.signal){
 			case "hashbang":
-				this.callback = this.checkHashbang;
+				this.signalStrategy = this.checkHashbang;
 				break;
 			case "get":
-				this.callback = this.checkQueryParam;
+				this.signalStrategy = this.checkQueryParam;
 				break;
-			case "callback":
-				this.callback = this.userCallback;
-				if(typeof this.callback != 'undefined'){
-					var workerArr = this.callback();
-					this.label = workerArr['label'] != undefined ? workerArr['label'] : "";
-					this.paranoidLabel = workerArr['paranoidLabel'] != undefined ? workerArr['paranoidLabel'] : "";
-				}
+			case "userfunc":
+				//Don't need to set it because that's done when options are copied
 				break;
 			case undefined:
 				console.log("No signal type specified.");
 				break;
-			case "cookie":
+			case "cookie": //Will be included soon.
 			default:
 				console.log("Yeah, we don't support that signal yet. Sorry. :/");
 				break;
+		}
+		
+		if(typeof this.signalStrategy != 'undefined'){
+			var workerArr = this.signalStrategy();
+			this.passedKey = workerArr['key'] != undefined ? workerArr['key'] : "";
+			this.passedValue = workerArr['label'] != undefined ? workerArr['label'] : "";
+		}
+		else{
+			console.log("userfunc option selected, but no function provided.");
 		}
 	};
 	
@@ -114,21 +122,22 @@ function IgnoreMe(options){
 		window._gaq = [];
 		window._gaq.push(['_setAccount', this.gaId]);
 		
-		console.log("The ignorelevel is: "+this.ignoreLevel);
+		console.log("The specified ignorelevel is: " + this.ignoreLevel);
 		
 		switch(this.ignoreLevel){
-			case "paranoid":
-				if(this.label.toLowerCase() == this.paranoidLabel.toLowerCase()){
-					console.log("Paranoid mode activized. GA object not created, pageview not logged.");
-					break;
-				}
-			case "ignore":
-				if(this.label != ""){
-					console.log("Ignore mode activized. Setting No_Track custom var.");
-					window._gaq.push(['_setCustomVar', 1, "No_Track", this.label, 3]);
+			case "filter":  //Should give both the key and value to GA where available.
+				if(this.passedKey != "" && this.passedValue != ""){
+					console.log("Filter mode activized. Preparing to send GA custom variable.");
+					window._gaq.push(['_setCustomVar', 1, this.passedKey, this.passedValue, 3]);
 				}
 				else{
-					console.log("No label given. Proceeding as normal.");
+					console.log("No signal detected. Proceeding as normal.");
+				}
+			case "paranoid": //Needs to match the passed value with a pre-specified trigger value because there's no post-processing on the GA side
+				if(this.passedValue.toLowerCase() == this.triggerValue.toLowerCase()
+				   && window._gaq.length == 1){
+					console.log("Paranoid mode activized. GA object not created, pageview not logged.");
+					break;
 				}
 			case "normal":
 			case undefined:

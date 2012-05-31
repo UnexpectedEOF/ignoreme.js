@@ -36,8 +36,8 @@ The following code is put into the "stuff.html" page of example.com/.
 	ops = { gaId: "UA-XXXXXXXX-X", 
 			signal: "get", 
 			level: "paranoid",
-			queryParam: "notrack",
-			paranoidLabel: "yes"
+			key: "notrack",
+			value: "yes"
 		  };
 		
 	ignorer = new IgnoreMe(ops);
@@ -58,7 +58,7 @@ filtering techniques (instead of paranoid blocking) and a different signal:
 	ops = { gaId: "UA-XXXXXXXX-X", 
 			signal: "hashbang",
 			level: "ignore",
-			label: "shush",
+			value: "shush",
 		  };
 		
 	ignorer = new IgnoreMe(ops);
