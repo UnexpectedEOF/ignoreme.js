@@ -11,8 +11,8 @@ demos  for potential clients. The resulting "junk" hits can really mess with
 analytics stats if they constitute a nontrivial proportion of your traffic. 
 
 Google Analytics has some official filtering and traffic exclusion 
-functionality to deal with unimportant visits, but it's all pretty rigid and
-usually involves some kind of klunky workaround techniques[1][2] to properly "ignore"
+functionality to deal with unimportant visits, but it's all pretty rigid[1] and
+usually involves some kind of klunky workaround techniques[2] to properly "ignore"
 junk traffic. The alternative is to use GA-blocking browser plugins, but those
 only work in the computers (and browser executibles) where they are installed.
 And it's a pain to switch them off and on during development.
@@ -55,7 +55,7 @@ ignoreme.js won't load request any GA-related assets from google. The visit will
 also not appear in GA's Real-Time feed.
 
 Here's a slightly more conventional example that uses Google's recommended 
-filtering techniques (instead of paranoid blocking) and a different signal:
+filtering techniques[1] (instead of paranoid blocking) and a different signal:
 
 
 	//...
@@ -122,6 +122,6 @@ Q: Is this tool bug-free, well-documented, or well-supported? Is there any warra
 A: Nope. 
 
 
-  [1]: http://iqcontent.com/blog/2007/06/dealing-with-query-strings-in-google-analytics/ "Google - How do I exclude my internal traffic from reports?"
+  [1]: http://support.google.com/googleanalytics/bin/answer.py?hl=en&answer=55481"Google - "How do I exclude my internal traffic from reports?"
   [2]: http://www.mcbuzz.com/2011/how-to-exclude-visitors-from-google-analytics/ "McBuzz - How to Exclude Internal Visits/Visitors from Google Analytics Reports Using Asynchronous Code"
   [3]: http://iqcontent.com/blog/2007/06/dealing-with-query-strings-in-google-analytics/ "iQ Content - Dealing with query strings in Google Analytics"
