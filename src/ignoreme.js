@@ -7,7 +7,7 @@
 function IgnoreMe(options){
 	
 	
-	if(typeof options == 'undefined'){
+	if(typeof options === 'undefined'){
 		console.log("Yo, you need to pass an options object first.");
 		return false;
 	}
@@ -33,14 +33,14 @@ function IgnoreMe(options){
 	this.setOptions = function(optionsObject){
 		//Options stuff
 		this.optionsObj = optionsObject;
-		this.ignoreLevel = this.optionsObj['level'] != undefined ? this.optionsObj['level'] : undefined;
-		this.signal = this.optionsObj['signal'] != undefined ? this.optionsObj['signal'] : undefined;
-		this.triggerKey = this.optionsObj['key'] != undefined ? this.optionsObj['key'] : undefined;
-		this.triggerValue = this.optionsObj['value'] != undefined ? this.optionsObj['value'] : undefined;
-		this.signalStrategy = this.optionsObj['userfunc'] != undefined ? this.optionsObj['userfunc'] : undefined;
+		this.ignoreLevel = this.optionsObj.level != undefined ? this.optionsObj.level : undefined;
+		this.signal = this.optionsObj.signal != undefined ? this.optionsObj.signal : undefined;
+		this.triggerKey = this.optionsObj.key != undefined ? this.optionsObj.key : undefined;
+		this.triggerValue = this.optionsObj.value != undefined ? this.optionsObj.value : undefined;
+		this.signalStrategy = this.optionsObj.userfunc != undefined ? this.optionsObj.userfunc : undefined;
 		
 		//GA-specific shit
-		this.gaId = this.optionsObj['gaId'] != undefined ? this.optionsObj['gaId'] : undefined;
+		this.gaId = this.optionsObj.gaId != undefined ? this.optionsObj.gaId : undefined;
 		this.gaObject = this.optionsObj.gaObj != undefined ? this.optionsObj.gaObj : undefined;
 		this.gaq = this.optionsObj.gaq != undefined ? this.optionsObj.gaq : undefined;
 	};
@@ -52,7 +52,7 @@ function IgnoreMe(options){
 		var returner = {key: "", label: ""};
 		var hash = typeof window.location.hash != 'undefined' ? window.location.hash.replace('#!', '').replace('#', '') : "";
 		
-		if(hash != "" && hash.toLowerCase() == this.triggerValue.toLowerCase()){
+		if(hash !== "" && hash.toLowerCase() === this.triggerValue.toLowerCase()){
 			console.log("Hash is: "+ hash);
 			returner = {key: hash, label: hash};
 		}
@@ -69,11 +69,11 @@ function IgnoreMe(options){
 		
 		var match = RegExp('[?&]' + String(name) + '=([^&]*)').exec(window.location.search);
 
-    	var passedValue = match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    	passedValue = passedValue == null ? "" : passedValue;
+		var passedValue = match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+		passedValue = passedValue === null ? "" : passedValue;
 
-    	console.log("Result of the query param search: " + passedValue);
-    	return {key: this.triggerKey, label: passedValue};
+		console.log("Result of the query param search: " + passedValue);
+		return {key: this.triggerKey, label: passedValue};
 	};
 
 	this.extractCookie = function(){
@@ -105,10 +105,10 @@ function IgnoreMe(options){
 				break;
 		}
 		
-		if(typeof this.signalStrategy != 'undefined'){
+		if(typeof this.signalStrategy !== 'undefined'){
 			var workerArr = this.signalStrategy();
-			this.passedKey = workerArr['key'] != undefined ? workerArr['key'] : "";
-			this.passedValue = workerArr['label'] != undefined ? workerArr['label'] : "";
+			this.passedKey = workerArr.key != undefined ? workerArr.key : "";
+			this.passedValue = workerArr.label != undefined ? workerArr.label : "";
 		}
 		else{
 			console.log("userfunc option selected, but no function provided.");
@@ -134,8 +134,7 @@ function IgnoreMe(options){
 					console.log("No signal detected. Proceeding as normal.");
 				}
 			case "paranoid": //Needs to match the passed value with a pre-specified trigger value because there's no post-processing on the GA side
-				if(this.passedValue.toLowerCase() == this.triggerValue.toLowerCase()
-				   && window._gaq.length == 1){
+				if(this.passedValue.toLowerCase() === this.triggerValue.toLowerCase() && window._gaq.length === 1){
 					console.log("Paranoid mode activized. GA object not created, pageview not logged.");
 					break;
 				}
@@ -146,7 +145,7 @@ function IgnoreMe(options){
 				window._gaq.push(['_trackPageview']);
 				window.ga = document.createElement('script'); window.ga.type = 'text/javascript'; window.ga.async = true;
 				window.ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(window.ga, s);
 				break;	
 		}
 		
