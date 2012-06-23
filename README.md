@@ -121,7 +121,11 @@ Q: Is this tool bug-free, well-documented, or well-supported? Is there any warra
 --
 A: Nope. 
 
+Q: What is ignoreme.js licensed under?
+--
+A: The Apache 2.0 License[4]
 
   [1]: http://support.google.com/googleanalytics/bin/answer.py?hl=en&answer=55481 "Google - How do I exclude my internal traffic from reports?"
   [2]: http://www.mcbuzz.com/2011/how-to-exclude-visitors-from-google-analytics/ "McBuzz - How to Exclude Internal Visits/Visitors from Google Analytics Reports Using Asynchronous Code"
   [3]: http://iqcontent.com/blog/2007/06/dealing-with-query-strings-in-google-analytics/ "iQ Content - Dealing with query strings in Google Analytics"
+  [4]: http://www.apache.org/licenses/LICENSE-2.0 "Apache License, Version 2.0"
