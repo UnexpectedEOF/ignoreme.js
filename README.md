@@ -11,8 +11,8 @@ demos  for potential clients. The resulting "junk" hits can really mess with
 analytics stats if they constitute a nontrivial proportion of your traffic. 
 
 Google Analytics has some official filtering and traffic exclusion 
-functionality to deal with unimportant visits, but it's all pretty rigid[1] and
-usually involves some kind of klunky workaround techniques[2] to properly "ignore"
+functionality to deal with unimportant visits, but it's all [pretty rigid] [1] and
+usually involves some kind of [klunky workaround techniques][2] to properly "ignore"
 junk traffic. The alternative is to use GA-blocking browser plugins, but those
 only work in the computers (and browser executibles) where they are installed.
 And it's a pain to switch them off and on during development.
@@ -54,8 +54,8 @@ types (or is linked to) "http://example.com/stuff.html?notrack=yes", then
 ignoreme.js won't load request any GA-related assets from google. The visit will
 also not appear in GA's Real-Time feed.
 
-Here's a slightly more conventional example that uses Google's recommended 
-filtering techniques[1] (instead of paranoid blocking) and a different signal:
+Here's a slightly more conventional example that uses Google's [recommended 
+filtering techniques] [1] (instead of paranoid blocking) and a different signal:
 
 
 	//...
@@ -94,8 +94,8 @@ Q: What do I need to do in my Google Analytics dashboard?
 --
 A: If you run ignoreme.js in paranoid mode, nothing. The other modes require only
 minimal setup to fully filter results. You may be as elaborate or as sparse in
-your config as you wish. For instance, it might be prudent to eliminate GET
-parameters from your analytics[3].
+your config as you wish. For instance, it might be prudent to [eliminate GET
+parameters from your analytics] [3].
 
 
 Q: There are multiple people who work on my site. How do I tell them about this?
@@ -123,7 +123,7 @@ A: Nope.
 
 Q: What is ignoreme.js licensed under?
 --
-A: The Apache 2.0 License[4]
+A: The [Apache 2.0 License] [4]
 
   [1]: http://support.google.com/googleanalytics/bin/answer.py?hl=en&answer=55481 "Google - How do I exclude my internal traffic from reports?"
   [2]: http://www.mcbuzz.com/2011/how-to-exclude-visitors-from-google-analytics/ "McBuzz - How to Exclude Internal Visits/Visitors from Google Analytics Reports Using Asynchronous Code"
